@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/controllers/cart_controller.dart';
-
+import '../models/product_model.dart';
 import '../widgets/cart_item.dart';
 
 class CartScreen extends StatefulWidget {
@@ -13,10 +13,17 @@ class CartScreen extends StatefulWidget {
   State<CartScreen> createState() => _CartScreenState();
 }
 
-class _CartScreenState extends State<CartScreen> {
 
+class _CartScreenState extends State<CartScreen> {
+  ProductModel? get _watchProduct => context.watch<ProductModel>();
+  ProductModel? get _readProduct => context.read<ProductModel>();
   CartController get _readCartController => context.read<CartController>();
   CartController get _watchCartController => context.watch<CartController>();
+
+  // void deleteCart(){
+  //   _readCartController.deleteItem(
+  //       _readProduct?.id ?? "");
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -48,9 +55,9 @@ class _CartScreenState extends State<CartScreen> {
                     backgroundColor: Theme.of(context).primaryColor,
                   ),
                   FlatButton(
-                    child: Text('ORDER NOW'),
+                    child: Text('Delete All'),
                     onPressed: () {
-                      // _readCartController.clear();
+                       _readCartController.clear();
                     },
                     textColor: Theme.of(context).primaryColor,
                   )
@@ -68,9 +75,9 @@ class _CartScreenState extends State<CartScreen> {
                 _watchCartController.items.values.toList()[i].price,
                 _watchCartController.items.values.toList()[i].quantity,
                 _watchCartController.items.values.toList()[i].title,
+                ),
                   ),
             ),
-          )
         ],
       ),
     );
